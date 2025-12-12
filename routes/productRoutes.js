@@ -3,7 +3,6 @@ import Product from '../models/product.js';
 
 const router = express.Router();
 
-// GET /api/products - get all products
 router.get('/', async (req, res) => {
   try {
     const products = await Product.find();
@@ -13,7 +12,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /api/products - create product
 router.post('/', async (req, res) => {
   try {
     const product = new Product(req.body);

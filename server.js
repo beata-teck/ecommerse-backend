@@ -1,22 +1,29 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import connectDB from './config/db.js';
-import productRoutes from './routes/productRoutes.js';
+import express from 'express'
+import dotenv from 'dotenv'
+import cors from 'cors'
+import {connectDB} from './config/db.js'
 
 dotenv.config();
+
+const app=express();
+const PORT=process.env.PORT || 5000;
+
+app.use(cors())
+app.use(express.json())
+
 connectDB();
 
-const app = express();
+import userRoutes from './routes/userRoutes.js'
+import productRoutes from './routes/productRoutes.js'
 
-// middleware to parse JSON
-app.use(express.json());
+app.use('/api/users', userRoutes)
+app.use('/api/products', productRoutes)
 
-// register product routes here
-app.use('/api/products', productRoutes);
+app.get('/', (req, res) => {
+    res.send('Welcome to E-commerce API')
+})
 
-// optional root route
-app.get('/', (req, res) => res.send('API running'));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`E-commerce server is running on port ${PORT}`);
+})
 
